@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace UnityFinder
 {
@@ -14,10 +15,17 @@ namespace UnityFinder
                 UseShellExecute = false
             };
 
+            var unity = args[0];
+            Console.Write($"Finding Unity {unity} ... ");
+
             var process = new Process { StartInfo = startInfo };
             process.Start();
             var output = process.StandardOutput.ReadToEnd();
-            return output.Contains(args[0]) ? 0 : 1;
+            var result = output.Contains(unity);
+
+            Console.WriteLine($"is{(result ? " " : " NOT ")}installed.");
+
+            return result ? 0 : 1;
         }
     }
 }
